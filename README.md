@@ -1,1 +1,1 @@
-# CPS510_Library_DBMS
+# CPS510-Library-DBMS
