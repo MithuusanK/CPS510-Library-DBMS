@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Database Management System</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      // Function to send a request and display results dynamically
+      async function fetchQuery(option) {
+        const response = await fetch(`/query/${option}`);
+        const data = await response.json();
+
+        // Update the modal with query results
+        const modal = document.getElementById("modal");
+        const modalBody = document.getElementById("modal-body");
+        modal.style.display = "block";
+
+        if (data.error) {
+          modalBody.innerHTML = `<p class="error">${data.error}</p>`;
+        } else if (data.rows && data.rows.length > 0) {
+          let table = "<table><thead><tr>";
+          data.columns.forEach((col) => {
+            table += `<th>${col}</th>`;
+          });
+          table += "</tr></thead><tbody>";
+          data.rows.forEach((row) => {
+            table += "<tr>";
+            row.forEach((cell) => {
+              table += `<td>${cell}</td>`;
+            });
+            table += "</tr>";
+          });
+          table += "</tbody></table>";
+          modalBody.innerHTML = table;
+        } else {
+          modalBody.innerHTML = "<p>No results found.</p>";
+        }
+      }
+
+      // Close the modal
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Library Database Management System</h1>
+    </header>
+    <main>
+      <div class="options-container">
+        <div class="option-card" onclick="fetchQuery('view_members')">
+          View Members
+        </div>
+        <div class="option-card" onclick="fetchQuery('view_admins')">
+          View Admins
+        </div>
+        <div class="option-card" onclick="fetchQuery('view_books')">
+          View Books
+        </div>
+        <div class="option-card" onclick="fetchQuery('view_dvds')">
+          View DVDs
+        </div>
+        <div class="option-card" onclick="fetchQuery('view_specific_user')">
+          View Specific User
+        </div>
+        <div class="option-card" onclick="fetchQuery('view_specific_item')">
+          View Specific Book or DVD
+        </div>
+        <!-- Add more options as needed -->
+      </div>
+    </main>
+
+    <!-- Modal for displaying results -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+  </body>
+</html>
