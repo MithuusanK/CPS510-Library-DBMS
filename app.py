@@ -15,7 +15,7 @@ def home():
 def query(option):
     try:
         # Connect to the Oracle database using your credentials
-        conn = cx_Oracle.connect(user='nadoshi', password='05169700', dsn=dsn_tns)
+        conn = cx_Oracle.connect(user='', password='', dsn=dsn_tns)
         cursor = conn.cursor()
 
         # SQL query options based on the menu
@@ -46,4 +46,5 @@ def query(option):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
